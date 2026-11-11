@@ -52,3 +52,5 @@ Lesson: base rate of a 0.5ATR-target/1ATR-stop bracket is already ~67% target-fi
 | E6b-RESID-FUNDING | Demeaned 7d funding, long low / short high, beta-neutral | -0.4bp/wk, t 0.0 | Funding carry is a common factor, no residual edge |
 S1 (E5 funding carry) reclassified: FACTOR PREMIUM (R^2 0.86 to common carry). Paper-only, labelled as premium, not alpha.
 | E7-INDEX-FLOW | S&P 500 deletions (long) / additions (short) residual after index-fund close trade | del: n128, win 45-52%, t~0; add: n336, -0.3bp, win 46% | No residual reversal; deletions badly covered (41%) on free data |
+| E8-SS-LETF-ON | Single-stock LETF names, overnight residual (vs beta*QQQ) reversal after |z|>k day; time-machine replay 2022-08..2026-11 | k2: -24bp, win 50%, t -2.2 | Residual CONTINUES overnight; no flow-size dose-response; R2 index proxy cycle-inconsistent |
+Cross-study finding (G2, E6a, E8): daily single-name residual shocks CONTINUE in S&P stocks, crypto perps and LETF names.
