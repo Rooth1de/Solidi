@@ -32,3 +32,9 @@ Lesson: win rate is a design choice (exit placement), not evidence. All 5 famili
 Pattern: every easy-to-code edge with a strong pre-2013 record is gone OOS (consistent with crowding thesis).
 Accounting fix: round-1 trades() and round-2 F5 book() omitted exit-day cost from per-trade returns (win rates
 overstated by ~2-5pts). Daily equity curves were correct; verdicts unchanged. evt.py (round 3) is correct.
+
+## E1 (2026-11-11) Calibrated bracket classifier, Calibrain-harness philosophy. Cumulative trials: 46.
+| ID | Setup | Result | Why dead |
+|---|---|---|---|
+| E1-CALIB-BRACKET | Multinomial logit on 9 known-anomaly features, 15 ETFs, TP 0.5/1.0 ATR vs SL 1 ATR, 5/10d, blended with walk-forward base rates, EV gate | Traded win 69% (k0.5,H5), +0.03R, t 1.5 | Model Brier skill vs base rates -5%, AUC 0.50, blend weight 0.07: features carry no information beyond base rates; 2016-26 ~0R; negative at 2x cost |
+Lesson: base rate of a 0.5ATR-target/1ATR-stop bracket is already ~67% target-first. High win rate is free; EV is not.
