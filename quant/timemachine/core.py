@@ -8,7 +8,7 @@ class PITView:
     """Point-in-time view. Strategies call view.hist(sym) and get bars with date <= asof only."""
     def __init__(self, frames: dict): self._f = frames; self.asof = None
     def hist(self, sym, n=None):
-        d = self._f[sym]; d = d[d.index <= self.asof]
+        d = self._f[sym]; d = d.iloc[:d.index.searchsorted(self.asof, side="right")]   # rows <= asof only
         return d if n is None else d.iloc[-n:]
     def peek_future(self, *_): raise LookAheadError("strategies may not see the future")
     def has(self, sym): return sym in self._f and (self._f[sym].index <= self.asof).any()
