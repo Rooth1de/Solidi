@@ -15,3 +15,10 @@ Tails NOT in the data: auto-deleveraging of the short leg in crashes (breaks the
 Promotion: PAPER ONLY. Sizing for paper: notional per coin <= 5% of equity (a 10% unhedged ADL shock = 0.5% equity).
 Kill rules (pre-set): stop if trailing 90d realised net carry < 0, or mean funding across coins < 10% APR at entry
  (below that, 30bp costs consume the 30d carry), or any ADL/venue incident. No real capital without human approval.
+
+## S2 — E10 Hyperliquid basis snap-back — APPROVED FOR PAPER ONLY (Guild cycle 1, 2026-11-11, trial 70)
+Rule: hourly; if a coin's HL funding premium > +30bp: SHORT perp / LONG spot (equal notional); exit when premium
+<= 5bp or after 24h. Residual by construction (market-neutral basis). Payer: one-sided perp flow / liquidations.
+Accepted evidence = 1h-delayed (executable-proxy) replay: n147 (this side), win 81%, +23bp per trade at 30bp costs;
+breakeven ~52bp. Paladin conditions: shadow-log executable basis (impactPxs vs oraclePx) + spot quote cost; kill if
+realised round-trip cost > 40bp or forward mean net < 0 after 30 trades; no capital without human approval.

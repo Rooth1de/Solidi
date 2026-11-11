@@ -53,19 +53,20 @@ def summ(T, label):
                 avg_hours=round(T.hours.mean(), 1), coins=T.sym.nunique(),
                 dsr=round(dsr(T.net.mean()/T.net.std()*np.sqrt(len(T)/yrs), len(T), stats.skew(T.net), stats.kurtosis(T.net, fisher=False), NT), 3))
 P = lambda r: print(pd.DataFrame(r).to_string(index=False))
-allp = pd.concat([H[c].premium.rename(c) for c in U], axis=1).loc[hours]
-print("premium |bp| distribution across coin-hours: p50 %.1f p90 %.1f p99 %.1f p99.9 %.1f" % tuple(np.nanpercentile(allp.abs().values*1e4, [50, 90, 99, 99.9])))
-rows = []; keep = {}
-for X in (30, 50):
-    T = replay(X, run=f"E10_X{X}"); keep[X] = T
-    rows += [summ(T, f"X{X}bp"), summ(replay(X, 60), "   cost 60bp"), summ(replay(X, 30, 1), "   delay 1h")]
-    for s, g in T.groupby("side"): rows.append(summ(g, f"   side {'long perp/short spot' if s > 0 else 'short perp/long spot'}"))
-P(rows)
-for X, T in keep.items():
-    T = T.copy(); T["day"] = T.index.normalize(); T = T.join(REG, on="day")
-    T["cycle"] = np.select([T.index < "2024-01-01", T.index < "2025-01-01", T.index < "2026-01-01"], ["2023H2", "2024", "2025"], "2026")
-    for col in ("trend", "vol", "cycle"): print(f"X{X} by {col}:", {k: f"n{len(g)} {g.net.mean()*1e4:.1f}bp win {(g.net>0).mean():.2f}" for k, g in T.groupby(col)})
-    print(f"X{X} by coin:", {k: f"n{len(g)} {g.net.mean()*1e4:.0f}" for k, g in T.groupby("sym")})
-    C = pd.concat([pd.read_csv(f"data/hl/{c}_1d.csv", index_col=0, parse_dates=True).c.rename(c) for c in U], axis=1); C.index = pd.to_datetime(C.index, utc=True)
-    mkt = np.log(C).diff().mean(1); daily = T.net.groupby(T.index.normalize()).sum().reindex(mkt.index).fillna(0)
-    print(f"X{X} RESIDUAL GATE:", residual_gate(T, daily["2023-06":], pd.DataFrame({"MKT": mkt["2023-06":]}), np.log(C).diff()["2023-06":].sub(mkt["2023-06":], axis=0), "net", "sym"))
+if __name__ == "__main__":
+    allp = pd.concat([H[c].premium.rename(c) for c in U], axis=1).loc[hours]
+    print("premium |bp| distribution across coin-hours: p50 %.1f p90 %.1f p99 %.1f p99.9 %.1f" % tuple(np.nanpercentile(allp.abs().values*1e4, [50, 90, 99, 99.9])))
+    rows = []; keep = {}
+    for X in (30, 50):
+        T = replay(X, run=f"E10_X{X}"); keep[X] = T
+        rows += [summ(T, f"X{X}bp"), summ(replay(X, 60), "   cost 60bp"), summ(replay(X, 30, 1), "   delay 1h")]
+        for s, g in T.groupby("side"): rows.append(summ(g, f"   side {'long perp/short spot' if s > 0 else 'short perp/long spot'}"))
+    P(rows)
+    for X, T in keep.items():
+        T = T.copy(); T["day"] = T.index.normalize(); T = T.join(REG, on="day")
+        T["cycle"] = np.select([T.index < "2024-01-01", T.index < "2025-01-01", T.index < "2026-01-01"], ["2023H2", "2024", "2025"], "2026")
+        for col in ("trend", "vol", "cycle"): print(f"X{X} by {col}:", {k: f"n{len(g)} {g.net.mean()*1e4:.1f}bp win {(g.net>0).mean():.2f}" for k, g in T.groupby(col)})
+        print(f"X{X} by coin:", {k: f"n{len(g)} {g.net.mean()*1e4:.0f}" for k, g in T.groupby("sym")})
+        C = pd.concat([pd.read_csv(f"data/hl/{c}_1d.csv", index_col=0, parse_dates=True).c.rename(c) for c in U], axis=1); C.index = pd.to_datetime(C.index, utc=True)
+        mkt = np.log(C).diff().mean(1); daily = T.net.groupby(T.index.normalize()).sum().reindex(mkt.index).fillna(0)
+        print(f"X{X} RESIDUAL GATE:", residual_gate(T, daily["2023-06":], pd.DataFrame({"MKT": mkt["2023-06":]}), np.log(C).diff()["2023-06":].sub(mkt["2023-06":], axis=0), "net", "sym"))
