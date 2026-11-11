@@ -44,3 +44,11 @@ Lesson: base rate of a 0.5ATR-target/1ATR-stop bracket is already ~67% target-fi
 |---|---|---|---|
 | E3-HOURLY-CALIB | Hourly brackets (TP .5sigma_H / SL 1sigma_H), EQ (SPY/QQQ/IWM) & CRYPTO (BTC/ETH), 7 econ features, WF logit + base-rate blend + EV gate | Model beats base rates (+1.4..4.1% Brier) | Skill = volatility (touch vs neither), not direction; top-EV decile realised R negative everywhere; traded win 53-62% |
 | E4-FX-ME-HEDGE | Month-end USD direction from MTD US-minus-foreign equity performance, 5 pairs | Disc wrong sign (t -2.85); OOS +1.6bp t0.5 | Fails all gates; daily FX close can't time the 4pm fix |
+
+## E6 (2026-11-11), first experiment under RULES.md R1 (residual-first). Cumulative trials: 61.
+| ID | Residual traded / payer | Result | Why dead |
+|---|---|---|---|
+| E6a-RESID-SNAPBACK | HL perp residual vs leave-one-out EW market; fade |z|>k; liquidations | -52..-97bp/trade all 6 variants, p(random)=1.0 | Crypto idiosyncratic shocks CONTINUE; fat right tail on residual shorts (-66%) |
+| E6b-RESID-FUNDING | Demeaned 7d funding, long low / short high, beta-neutral | -0.4bp/wk, t 0.0 | Funding carry is a common factor, no residual edge |
+S1 (E5 funding carry) reclassified: FACTOR PREMIUM (R^2 0.86 to common carry). Paper-only, labelled as premium, not alpha.
+| E7-INDEX-FLOW | S&P 500 deletions (long) / additions (short) residual after index-fund close trade | del: n128, win 45-52%, t~0; add: n336, -0.3bp, win 46% | No residual reversal; deletions badly covered (41%) on free data |

@@ -1,5 +1,5 @@
 # Survivors register
-## S1 — E5 delta-neutral perp funding carry (probationary). Found 2026-11-11 at cumulative trial 54.
+## S1 — E5 delta-neutral perp funding carry — RECLASSIFIED 2026-11-11 under R1: FACTOR PREMIUM, not alpha (common carry R^2 0.86). Found 2026-11-11 at cumulative trial 54.
 Rule (simplest form that passed): daily 00:00 UTC per coin (BTC ETH SOL XRP DOGE AVAX LINK), if flat and the
 calibrated P(net carry > 0) gives EV > 0 (in practice: recent funding clearly positive), SHORT Hyperliquid perp +
 LONG spot, equal notional, hold 30 days. P&L = funding received + basis change - costs.
