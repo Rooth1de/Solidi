@@ -15,4 +15,4 @@ node_modules
 
 # Foundry files
 /out
-/cache_forge
+/cache_forgequant/data/*.csv
