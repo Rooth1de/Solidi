@@ -38,3 +38,9 @@ overstated by ~2-5pts). Daily equity curves were correct; verdicts unchanged. ev
 |---|---|---|---|
 | E1-CALIB-BRACKET | Multinomial logit on 9 known-anomaly features, 15 ETFs, TP 0.5/1.0 ATR vs SL 1 ATR, 5/10d, blended with walk-forward base rates, EV gate | Traded win 69% (k0.5,H5), +0.03R, t 1.5 | Model Brier skill vs base rates -5%, AUC 0.50, blend weight 0.07: features carry no information beyond base rates; 2016-26 ~0R; negative at 2x cost |
 Lesson: base rate of a 0.5ATR-target/1ATR-stop bracket is already ~67% target-first. High win rate is free; EV is not.
+
+## E3 / E4 (2026-11-11). Cumulative trials: 52.
+| ID | Setup | Result | Why dead |
+|---|---|---|---|
+| E3-HOURLY-CALIB | Hourly brackets (TP .5sigma_H / SL 1sigma_H), EQ (SPY/QQQ/IWM) & CRYPTO (BTC/ETH), 7 econ features, WF logit + base-rate blend + EV gate | Model beats base rates (+1.4..4.1% Brier) | Skill = volatility (touch vs neither), not direction; top-EV decile realised R negative everywhere; traded win 53-62% |
+| E4-FX-ME-HEDGE | Month-end USD direction from MTD US-minus-foreign equity performance, 5 pairs | Disc wrong sign (t -2.85); OOS +1.6bp t0.5 | Fails all gates; daily FX close can't time the 4pm fix |
