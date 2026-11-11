@@ -140,4 +140,17 @@ def oibuild(D, p):
 
 oibuild.GRID = _grid(N=[6, 12, 24], z=[2.0, 3.0], q=[0.005, 0.01, 0.02], hold=[6, 12, 24], dr=[1, -1])
 
-REG = dict(oiflush=oiflush, oibuild=oibuild, flow=flow, shock=shock, funding=funding, session=session, leadlag=leadlag)
+
+
+# ---- H6b: long-only liquidation flush (gen 4). Motivation from H6's failure: the short side lost in
+# ---- sample (short squeezes keep running), and an 81-set grid made walk-forward selection unstable.
+def oiflush_long(D, p):
+    N, z, q, hold = p["N"], p["z"], p["q"], p["hold"]
+    rN, zz = _zmove(D, N)
+    sig = ((zz < -z) & (_doiN(D, N) < -q)).astype(np.int8)
+    return dict(sig=sig, sl=np.abs(rN), max_hold=hold)
+
+
+oiflush_long.GRID = _grid(N=[12, 24], z=[3.0, 4.0], q=[0.01, 0.02], hold=[6, 12])
+
+REG = dict(oiflush_long=oiflush_long, oiflush=oiflush, oibuild=oibuild, flow=flow, shock=shock, funding=funding, session=session, leadlag=leadlag)
