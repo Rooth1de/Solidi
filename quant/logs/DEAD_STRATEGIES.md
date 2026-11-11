@@ -18,3 +18,17 @@ Family-level: all three are the same underlying bet (short-term index reversal);
 | F8-PUTWRITE | CBOE PUT index | 73% monthly | Zero alpha 2010+ after beta 0.58; negative skew. High win rate = beta + short gamma |
 WATCHLIST (unproven, not dead, not promotable): F7 post-panic re-leveraging (see report); F5 RSI2-pooled (thin, real-looking residual).
 Lesson: win rate is a design choice (exit placement), not evidence. All 5 families above with 60-73% win rates had ~zero risk-adjusted alpha.
+
+## Round 3 (2026-11-11). Cumulative trials: 43. Free data: Yahoo (ETFs, stocks, crypto), GitHub raw (PIT S&P 500).
+| ID | Rule | Disc -> OOS | Why dead |
+|---|---|---|---|
+| G1-CRYPTO-LIQ | BTC/ETH big-down-day reversal | ETH 76% win +164bp -> 57% win, -62bp | Decayed after 2021; negative across BTC/ETH/SOL |
+| G2-IDIO-REV | PIT S&P 500 idiosyncratic 2-3sd drop, SPY-hedged | negative both | Large-cap idio shocks continue (news); survivorship stress -100bp |
+| G3-BOND-ME | TLT last 1-2 days of month | 67% win t3.96 -> 53% t0.66 | Arbitraged ~2014; dies at 5bp |
+| H2-LETF-ON | Buy MOC after >1% down day, sell next open | +2.9bp excess (real, t2.9) | Mechanism real but 3bp << costs; win 56% |
+| H6-GAPFADE | Buy open after gap down, sell close | ~50% win | No effect |
+| H7-SHARECLASS | 9 dual-class pairs z-score reversion | 70% win t9 -> 53% win 0bp | Arbitraged by 2018; BRK-A stale-close artifact |
+| H8-ETFCLONE | SPY/IVV etc. | - | Closing-print noise; lag1 win 14% |
+Pattern: every easy-to-code edge with a strong pre-2013 record is gone OOS (consistent with crowding thesis).
+Accounting fix: round-1 trades() and round-2 F5 book() omitted exit-day cost from per-trade returns (win rates
+overstated by ~2-5pts). Daily equity curves were correct; verdicts unchanged. evt.py (round 3) is correct.
