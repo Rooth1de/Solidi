@@ -19,3 +19,4 @@ node_modules
 __pycache__/
 *.pyc
 quant/logs/*.sqlite-journal
+quant/logs/timemachine.sqlite
